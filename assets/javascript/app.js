@@ -108,6 +108,15 @@ $(document).ready(function() {
 //       flatSeven: "Ab"
 //     };
 
+var answerMessages = {
+  correct: "You got it!",
+  question1Wrong: 'Sorry, the correct answer was "F"',
+  question2Wrong: 'Sorry, the correct answer was "C, E, and G"',
+  question3Wrong: 'Sorry, the correct answer was "e minor"',
+  question4Wrong: 'Sorry, the correct answer was "F Major and G Major"',
+  question5Wrong: 'Sorry, the correct answer was "C#"'
+};
+
 var questions = {
   question1: {
     questionNumber: "Question 1: ",
@@ -173,14 +182,19 @@ var game = {
       var questionNum = "question" + questionNum;
     var guess = questions[questionNum]["selectedAnswer"];
     var answer = questions[questionNum]["correctAnswer"];
+    var text = "q" + questionNum + "-message";
 
     if(guess === answer){
       questions[questionNum]["isCorrect"] =  true;
-      console.log("Correct!");
+      console.log("Wrong!");
     } else {
       console.log("Wrong!");
     };
-
+  },
+  checkAllAnswers: function(){
+    for (var i = 1; i < 6; i++) {
+      game.checkAnswer(i);
+    };
     return questions
   },
   submitAnswer: function(){
