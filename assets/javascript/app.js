@@ -303,15 +303,20 @@ var game = {
       game.checkAllAnswers();
       game.updateText();
       timer.stop();
+      $(".score").show();
       $("#start-new-game").show();
     },
     startGame: function(){
       $("#quiz").show();
       $("#start-game").hide();
+      $("#end-game").show();
       setTimeout(game.endGame, 1000 * 60 * 3);
+      $(".score").hide();
 
     },
     init: function(){
-      game.startGame();
+      $("#end-game").hide();
     }
   };
+
+game.init();
