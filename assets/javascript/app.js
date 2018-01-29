@@ -305,6 +305,7 @@ var game = {
       timer.stop();
       $(".score").show();
       $("#start-new-game").show();
+      $("#end-game").hide();
     },
     startGame: function(){
       $("#quiz").show();
