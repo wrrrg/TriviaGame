@@ -1,11 +1,32 @@
+html {
+  background-image: url(../images/symphony.png);
+}
 body {
+  margin: 0 auto;
+  width: 960px;
   font-family: 'Slabo 27px', serif;
 }
 
 h1 {
   font-family: 'Roboto Slab', serif;
+  text-align: center;
+  text-decoration: underline;
 }
 
 ul {
   list-style: none;
+}
+
+#timer {
+  float: right;
+
+}
+
+button {
+  border: none;
+  padding: 15px;
+  font-family: 'Roboto Slab';
+  font-weight: bold;
+  font-size: 20px;
+  background: none;
 }
