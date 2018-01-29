@@ -29,6 +29,14 @@ $(document).ready(function() {
   $("#quiz .question5-div .q5-a2").text(questions.question5.answer2);
   $("#quiz .question5-div .q5-a3").text(questions.question5.answer3);
   $("#quiz .question5-div .q5-a4").text(questions.question5.answer4);
+
+
+// End The Game early
+
+$("#end-game").click(function(){
+  game.endGame();
+});
+
 });
 
 // function makeQuestion(question){
@@ -108,6 +116,12 @@ $(document).ready(function() {
 //       flatSeven: "Ab"
 //     };
 
+var score = {
+  totalQuestions: 5,
+  correct: 0,
+  wrong: 0
+};
+
 var answerMessages = {
   correct: "You got it!",
   question1Wrong: 'Sorry, the correct answer was "F"',
@@ -127,7 +141,8 @@ var questions = {
     answer4: "F",
     correctAnswer: "answer4",
     selectedAnswer: '',
-    isCorrect: false
+    isCorrect: false,
+    feedback: ''
   },
   question2: {
     questionNumber: "Question 2: ",
@@ -138,7 +153,8 @@ var questions = {
     answer4: "C, Eb, and G",
     correctAnswer: "answer1",
     selectedAnswer: '',
-    isCorrect: false
+    isCorrect: false,
+    feedback: ''
   },
   question3: {
     questionNumber: "Quesiton 3: ",
@@ -149,7 +165,8 @@ var questions = {
     answer4: "e minor",
     correctAnswer: "answer4",
     selectedAnswer: '',
-    isCorrect: false
+    isCorrect: false,
+    feedback: ''
   },
   question4: {
     questionNumber: "Question 4: ",
@@ -160,7 +177,8 @@ var questions = {
     answer4: "F Major and G Major",
     correctAnswer: "answer4",
     selectedAnswer: '',
-    isCorrect: false
+    isCorrect: false,
+    feedback: ''
   },
   question5: {
     questionNumber: "Question 5: ",
@@ -171,38 +189,59 @@ var questions = {
     answer4: "C",
     correctAnswer: "answer2",
     selectedAnswer: '',
-    isCorrect: false
+    isCorrect: false,
+    feedback: ''
   }
 };
 
 // Game Logic
 
 var game = {
-  checkAnswer: function(questionNum){
-      var questionNum = "question" + questionNum;
-    var guess = questions[questionNum]["selectedAnswer"];
-    var answer = questions[questionNum]["correctAnswer"];
-    var text = "q" + questionNum + "-message";
-
-    if(guess === answer){
-      questions[questionNum]["isCorrect"] =  true;
-      console.log("Wrong!");
-    } else {
-      console.log("Wrong!");
-    };
-  },
-  checkAllAnswers: function(){
-    for (var i = 1; i < 6; i++) {
-      game.checkAnswer(i);
-    };
-    return questions
-  },
-  submitAnswer: function(){
+  // Submit the answers selected
+  submitAnswers: function(){
     questions.question1.selectedAnswer = $('input[name=question1]:checked').val();
     questions.question2.selectedAnswer = $('input[name=question2]:checked').val();
     questions.question3.selectedAnswer = $('input[name=question3]:checked').val();
     questions.question4.selectedAnswer = $('input[name=question4]:checked').val();
     questions.question5.selectedAnswer = $('input[name=question5]:checked').val();
     return questions
-  }
-};
+  },
+  // check if an individual answer is right
+  checkAnswer: function(questionNum){
+      var questionNum = "question" + questionNum;
+      var answerNum = questionNum + "Wrong";
+    var guess = questions[questionNum]["selectedAnswer"];
+    var answer = questions[questionNum]["correctAnswer"];
+
+    if(guess === answer){
+      questions[questionNum]["isCorrect"] =  true;
+      questions[questionNum]["feedback"] = answerMessages.correct
+      score.correct += 1;
+    } else {
+      questions[questionNum]["feedback"] = answerMessages[answerNum];
+      score.wrong += 1;
+    };
+  },
+  // check if all answers are right
+  checkAllAnswers: function(){
+    for (var i = 1; i < 6; i++) {
+      game.checkAnswer(i);
+    };
+    return questions
+  },
+  updateText: function(){
+      $("#q1-message").text(questions.question1.feedback);
+      $("#q2-message").text(questions.question2.feedback);
+      $("#q3-message").text(questions.question3.feedback);
+      $("#q4-message").text(questions.question4.feedback);
+      $("#q5-message").text(questions.question5.feedback);
+      $("#right-answers").text(score.correct);
+    },
+
+  endGame: function(){
+    $("input[type=radio]").attr('disabled', true);
+      game.submitAnswers();
+      game.checkAllAnswers();
+      game.updateText();
+    }
+  };
