@@ -9,6 +9,8 @@
     <h1>Pop Quiz! Music Theory 101</h1>
       <h4>Note: prior knowledge of basic diatonic theory rules is required here. Here's a link to a great simple run down of major/minor scales and chords: <a href=#></a></h4>
 
+      <h2 id="timer">Time Left: <span id="time-left">5:00</span></h2>
+
       <div id="quiz">
         <div class="question1-div">
             <h3 class="q1-text"></h3>
@@ -69,14 +71,15 @@
             <p id="q5-message"></p>
 
         </div>
-
+        
+        <div class="score">
+          <h3>You got <span id="right-answers">0</span> out of 5 correct.</h3>
+          <p id="evalMessage"></p>
+        </div>
 
       </div>
 
-      <div class="score">
-        <h3>You got <span id="right-answers">0</span> out of 5 correct.</h3>
-        <p id="evalMessage"></p>
-      </div>
+
 
       <button type="button" name="button" id="end-game">End the game early!</button>
 

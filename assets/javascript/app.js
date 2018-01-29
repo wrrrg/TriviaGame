@@ -116,6 +116,8 @@ $("#end-game").click(function(){
 //       flatSeven: "Ab"
 //     };
 
+
+
 var score = {
   totalQuestions: 5,
   correct: 0,
@@ -238,10 +240,17 @@ var game = {
       $("#right-answers").text(score.correct);
     },
 
+
   endGame: function(){
     $("input[type=radio]").attr('disabled', true);
       game.submitAnswers();
       game.checkAllAnswers();
       game.updateText();
+    },
+    startGame: function(){
+      $("#quiz").show();
+    },
+    init: function(){
+      game.startGame();
     }
   };
