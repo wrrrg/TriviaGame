@@ -35,6 +35,7 @@ $(document).ready(function() {
 // Start the game
 $("#start-game").click(function(){
   game.startGame();
+  timer.start();
 });
 
 // End The Game early
@@ -203,19 +204,49 @@ var questions = {
 };
 //
 var timer = {
-  invervalID: 0,
+  counter: 0,
   isRunning: false,
 
-  time: 0,
+  time: 180,
 
   start: function() {
-    if(!isRunning) {
-      intervalID = setInterval(timer.count, 1000);
-      isRunning = true;
-    }
+    if(!timer.isRunning) {
+      counter = setInterval(timer.count, 1000);
+      timer.isRunning = true;
+    };
   },
+
   stop: function() {
-    clearInterval(intervalId);
+    clearInterval(counter);
+    timer.isRunning = false;
+  },
+
+  count: function(){
+    // reduce the time
+    timer.time--;
+    //
+    var converted = timer.timeConverter(timer.time);
+
+    $('#time-left').html(converted);
+  },
+
+  timeConverter: function(t) {
+
+    var minutes = Math.floor(t / 60);
+    var seconds = t - (minutes * 60);
+
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
+
+    if (minutes === 0) {
+      minutes = "00";
+    }
+    else if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+
+    return minutes + ":" + seconds;
   }
 };
 
@@ -271,10 +302,14 @@ var game = {
       game.submitAnswers();
       game.checkAllAnswers();
       game.updateText();
+      timer.stop();
+      $("#start-new-game").show();
     },
     startGame: function(){
       $("#quiz").show();
       $("#start-game").hide();
+      setTimeout(game.endGame, 1000 * 60 * 3);
+
     },
     init: function(){
       game.startGame();
