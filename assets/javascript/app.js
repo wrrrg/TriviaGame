@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $("#quiz").hide();
   // Question 1
   $("#quiz .question1-div .q1-text").text(questions.question1.questionNumber + questions.question1.question);
   $("#quiz .question1-div .q1-a1").text(questions.question1.answer1);
@@ -30,6 +31,11 @@ $(document).ready(function() {
   $("#quiz .question5-div .q5-a3").text(questions.question5.answer3);
   $("#quiz .question5-div .q5-a4").text(questions.question5.answer4);
 
+
+// Start the game
+$("#start-game").click(function(){
+  game.startGame();
+});
 
 // End The Game early
 
@@ -195,6 +201,25 @@ var questions = {
     feedback: ''
   }
 };
+//
+var timer = {
+  invervalID: 0,
+  isRunning: false,
+
+  time: 0,
+
+  start: function() {
+    if(!isRunning) {
+      intervalID = setInterval(timer.count, 1000);
+      isRunning = true;
+    }
+  },
+  stop: function() {
+    clearInterval(intervalId);
+  }
+};
+
+
 
 // Game Logic
 
@@ -249,6 +274,7 @@ var game = {
     },
     startGame: function(){
       $("#quiz").show();
+      $("#start-game").hide();
     },
     init: function(){
       game.startGame();
